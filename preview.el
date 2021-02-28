@@ -1731,11 +1731,17 @@ Consults `preview-transparent-color'."
                           (nth 1 preview-transparent-color)
                           'default)))))
 
+(defun preview-scale-factor ()
+  "Return the frame scale factor for pgtk backend."
+  (if (fboundp 'frame-monitor-attribute)
+      (or (frame-monitor-attribute 'scale-factor) 1.0)))
+
 (defsubst preview-create-icon-1 (file type ascent border)
   `(image
     :file ,file
     :type ,type
     :ascent ,ascent
+    :scale ,(/ 1.0 (preview-scale-factor))
     ,@(and border
            '(:mask (heuristic t)))))
 
