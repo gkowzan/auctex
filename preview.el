@@ -1730,11 +1730,14 @@ Consults `preview-transparent-color'."
                           (nth 0 preview-transparent-color)
                           (nth 1 preview-transparent-color)
                           'default)))))
+
 (defun preview-scale-factor ()
     "Return frame scale factor for pgtk backend or 1."
-    (or (when (fboundp 'frame-monitor-attribute)
-          (frame-monitor-attribute 'scale-factor))
-        1.0))
+    (or
+     (when (fboundp 'frame-monitor-attribute)
+       (frame-monitor-attribute 'scale-factor))
+     (when (eq system-type 'darwin) 2.0)
+     1.0))
 
 (defsubst preview-create-icon-1 (file type ascent border)
   `(image
